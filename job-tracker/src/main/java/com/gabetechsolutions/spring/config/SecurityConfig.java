@@ -12,18 +12,18 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
-        security
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll())
-                .logout(LogoutConfigurer::permitAll);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+              .authorizeHttpRequests((requests) -> requests
+                    .requestMatchers("/", "/home")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+              .formLogin((form) -> form
+                    .loginPage("/login")
+                    .permitAll())
+              .logout(LogoutConfigurer::permitAll);
 
-        return security.build();
+        return http.build();
     }
 }
