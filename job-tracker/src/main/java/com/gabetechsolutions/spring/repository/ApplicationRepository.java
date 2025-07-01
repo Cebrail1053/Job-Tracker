@@ -4,13 +4,15 @@ import com.gabetechsolutions.spring.domain.Application;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ApplicationRepository {
 
-    List<Application> findAll();
+    List<Application> findByUser(String id);
 
-    Application findById(int id);
+    Optional<Application> findByJobId(long id);
+
 
 
 }
