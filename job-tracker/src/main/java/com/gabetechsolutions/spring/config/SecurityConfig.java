@@ -23,12 +23,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // TODO: enable csrf, temporarily disabled during development
         http
               .csrf(AbstractHttpConfigurer::disable)
               .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers(
-                          "/**",
-                          "/api/v1/register"
+                    .requestMatchers("/",
+                          "/api/v1/registration"
                     )
                     .permitAll()
                     .anyRequest()
@@ -47,6 +47,5 @@ public class SecurityConfig {
         provider.setPasswordEncoder(bCryptPasswordEncoder);
         return provider;
     }
-
 
 }

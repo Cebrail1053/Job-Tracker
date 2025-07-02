@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional(readOnly = true) // TODO: Research if this is needed
 public class JDBCUserRepository implements UserRepository {
 
     @Override
