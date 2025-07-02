@@ -8,12 +8,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true) // TODO: Research if this is needed
 public class JDBCUserRepository implements UserRepository {
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return Optional.empty();
+    }
+
+    @Override
+    public User createUser(User user) {
+        return null;
     }
 
 }

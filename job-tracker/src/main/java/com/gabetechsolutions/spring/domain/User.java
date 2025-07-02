@@ -8,11 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
-@Data
+@Data // TODO: This makes the User mutable (Client Exposed), DTO needed?
 public class User implements UserDetails {
 // TODO: Update DB User Model to match
-    private String id;
+    private UUID id = UUID.randomUUID();
     private String firstName;
     private String lastName;
     private String email;

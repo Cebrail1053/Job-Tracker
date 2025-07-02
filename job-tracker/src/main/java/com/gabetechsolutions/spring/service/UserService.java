@@ -1,4 +1,9 @@
 package com.gabetechsolutions.spring.service;
 
-public interface UserService {
+import com.gabetechsolutions.spring.domain.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserService extends UserDetailsService {
+
+    String signUpUser(User user);
 }
