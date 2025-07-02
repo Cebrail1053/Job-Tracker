@@ -1,4 +1,4 @@
-package com.gabetechsolutions.spring.dto;
+package com.gabetechsolutions.spring.client.dtos;
 
 import java.time.LocalDate;
 

@@ -23,8 +23,8 @@ USE `jobtrackerdb` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jobtrackerdb`.`user` (
   `id` BINARY(16) NOT NULL,
-  `first_name` VARCHAR(45) NOT NULL,
-  `last_name` VARCHAR(45) NOT NULL,
+  `first_name` VARCHAR(45) NULL,
+  `last_name` VARCHAR(45) NULL,
   `email` VARCHAR(75) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),

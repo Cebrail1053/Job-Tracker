@@ -1,5 +1,6 @@
 package com.gabetechsolutions.spring.domain;
 
+import com.gabetechsolutions.spring.domain.enums.Status;
 import lombok.Data;
 
 import java.time.LocalDate;

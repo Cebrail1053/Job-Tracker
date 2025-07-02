@@ -1,4 +1,4 @@
-package com.gabetechsolutions.spring.domain;
+package com.gabetechsolutions.spring.domain.enums;
 
 import java.util.Arrays;
 

@@ -1,7 +1,7 @@
 package com.gabetechsolutions.spring.repository.jdbc;
 
 import com.gabetechsolutions.spring.domain.Application;
-import com.gabetechsolutions.spring.domain.Status;
+import com.gabetechsolutions.spring.domain.enums.Status;
 import com.gabetechsolutions.spring.repository.ApplicationRepository;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -59,7 +59,7 @@ public class JDBCApplicationRepository implements ApplicationRepository {
         return false;
     }
 
-    public static class ApplicationRowMapper implements RowMapper<Application> {
+    public static final class ApplicationRowMapper implements RowMapper<Application> {
 
         @Override
         public Application mapRow(ResultSet rs, int rowNum) throws SQLException {
