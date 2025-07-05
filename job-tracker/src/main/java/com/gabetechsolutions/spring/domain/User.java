@@ -11,10 +11,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-@Data // TODO: This makes the User mutable (Client Exposed), DTO needed?
+@Data
 public class User implements UserDetails {
 // TODO: Update DB User Model to match
-    private UUID id = UUID.randomUUID();
+    private byte[] id;
     private String firstName;
     private String lastName;
     private String email;

@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -17,7 +19,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final static String USER_NOT_FOUND = "User with email %s not found";
+    private final static String USER_NOT_FOUND = "User with email:%s not found";
+    private final static String USER_ASSOCIATED_TO_EMAIL = "%s is already associated to an account";
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -26,19 +29,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String signUpUser(User user) {
+    public User signUpUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email is already associated to an account");
-            // TODO: Handle exception better
+            throw new IllegalStateException(String.format(USER_ASSOCIATED_TO_EMAIL, user.getEmail()));
         }
-
+        // Encode the password before saving the user
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        // Generate a new UUID for the user
+        user.setId(UuidConverter.uuidToBytes(UUID.randomUUID()));
 
-        // TODO: Should UUID be converted in Repo or Service? Maybe need to map user object to DTO
         userRepository.createUser(user);
-
         //TODO: Send confirmation token
-        return "It Works";
+        return user;
     }
 }

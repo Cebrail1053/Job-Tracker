@@ -9,6 +9,8 @@ import com.gabetechsolutions.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
@@ -16,18 +18,20 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final EmailValidator emailValidator;
     private final UserService userService;
 
+    private static final String EMAIL_NOT_VALID = "%s is not a valid email address";
+
     @Override
-    public String register(RegistrationRequest request) {
+    public Optional<User> register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.email());
 
-        // TODO: handle invalid email exception in EmailValidator
         if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
+            throw new IllegalStateException(String.format(EMAIL_NOT_VALID, request.email()));
         }
 
-        return userService.signUpUser(
+        User userCreated = userService.signUpUser(
               new User(request.firstName(), request.lastName(), request.email(),
                     request.password(), Role.USER)
         );
+        return Optional.of(userCreated);
     }
 }
