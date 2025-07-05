@@ -2,6 +2,7 @@ package com.gabetechsolutions.spring.domain;
 
 import com.gabetechsolutions.spring.domain.enums.Role;
 import lombok.Data;
+import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

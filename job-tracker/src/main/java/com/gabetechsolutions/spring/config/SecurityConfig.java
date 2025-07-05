@@ -1,6 +1,7 @@
 package com.gabetechsolutions.spring.config;
 
-import com.gabetechsolutions.spring.service.impl.UserServiceImpl;
+import com.gabetechsolutions.spring.common.Path;
+import com.gabetechsolutions.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +17,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public class SecurityConfig {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
@@ -27,14 +29,14 @@ public class SecurityConfig {
         http
               .csrf(AbstractHttpConfigurer::disable)
               .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers("/",
-                          "/api/v1/registration"
+                    .requestMatchers(Path.BASE_URI,
+                          Path.SIGNUP_URI
                     )
                     .permitAll()
                     .anyRequest()
                     .authenticated())
               .formLogin((form) -> form
-                    .loginPage("/login")
+                    .loginPage(Path.LOGIN_URI)
                     .permitAll())
               .logout(LogoutConfigurer::permitAll);
 

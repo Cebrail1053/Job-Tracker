@@ -1,7 +1,7 @@
 package com.gabetechsolutions.spring.service.impl;
 
 import com.gabetechsolutions.spring.client.RegistrationRequest;
-import com.gabetechsolutions.spring.common.EmailValidator;
+import com.gabetechsolutions.spring.common.validators.EmailValidator;
 import com.gabetechsolutions.spring.domain.User;
 import com.gabetechsolutions.spring.domain.enums.Role;
 import com.gabetechsolutions.spring.service.RegistrationService;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
-    // TODO: Could this be encapsulated within the UserService?
 
     private final EmailValidator emailValidator;
     private final UserService userService;
@@ -21,7 +20,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.email());
 
-        // TODO: Better way of handling exception
+        // TODO: handle invalid email exception in EmailValidator
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }

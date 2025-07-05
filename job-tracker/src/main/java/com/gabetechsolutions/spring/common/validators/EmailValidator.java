@@ -1,4 +1,4 @@
-package com.gabetechsolutions.spring.common;
+package com.gabetechsolutions.spring.common.validators;
 
 import java.util.function.Predicate;
 
