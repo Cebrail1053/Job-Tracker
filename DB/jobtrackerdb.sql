@@ -23,10 +23,13 @@ USE `jobtrackerdb` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jobtrackerdb`.`user` (
   `id` BINARY(16) NOT NULL,
-  `first_name` VARCHAR(45) NULL,
-  `last_name` VARCHAR(45) NULL,
+  `first_name` VARCHAR(45) NULL DEFAULT NULL,
+  `last_name` VARCHAR(45) NULL DEFAULT NULL,
   `email` VARCHAR(75) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
+  `role` ENUM('USER', 'ADMIN') NOT NULL,
+  `locked` TINYINT NOT NULL,
+  `enabled` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB

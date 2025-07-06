@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @Data
 public class User implements UserDetails {
-// TODO: Update DB User Model to match
     private byte[] id;
     private String firstName;
     private String lastName;
