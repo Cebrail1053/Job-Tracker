@@ -23,6 +23,14 @@ public class RegistrationController {
     @PostMapping(Path.SIGNUP_URI)
     public RegistrationResponse register(@RequestBody RegistrationRequest request) {
         Optional<User> user = registrationService.register(request);
-        return null;
+        RegistrationResponse response = new RegistrationResponse();
+        if (user.isPresent()) {
+            response.setMessage("User registered successfully");
+            response.setEmail(user.get().getEmail());
+        } else {
+            response.setMessage("User registration failed");
+            response.setEmail(request.email());
+        }
+        return response;
     }
 }

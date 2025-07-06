@@ -32,6 +32,6 @@ public class RegistrationServiceImpl implements RegistrationService {
               new User(request.firstName(), request.lastName(), request.email(),
                     request.password(), Role.USER)
         );
-        return Optional.of(userCreated);
+        return Optional.ofNullable(userCreated);
     }
 }

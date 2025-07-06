@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
         // Generate a new UUID for the user
         user.setId(UuidConverter.uuidToBytes(UUID.randomUUID()));
 
-        userRepository.createUser(user);
+        User createdUser = userRepository.createUser(user);
         //TODO: Send confirmation token
-        return user;
+        return createdUser != null ? createdUser : null;
     }
 }
