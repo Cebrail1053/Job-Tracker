@@ -3,15 +3,23 @@ package com.gabetechsolutions.spring.repository.jdbc;
 import com.gabetechsolutions.spring.domain.User;
 import com.gabetechsolutions.spring.domain.enums.Role;
 import com.gabetechsolutions.spring.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class JDBCUserRepository implements UserRepository {
+
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final String TABLE_NAME = "users";
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM " + TABLE_NAME + " WHERE email = :email";
@@ -28,10 +36,24 @@ public class JDBCUserRepository implements UserRepository {
     @Override
     @Transactional
     public User createUser(User user) {
-        return null;
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+              .addValue("id", user.getId())
+              .addValue("firstName", user.getFirstName())
+              .addValue("lastName", user.getLastName())
+              .addValue("email", user.getEmail())
+              .addValue("password", user.getPassword())
+              .addValue("role", user.getRole().name())
+              .addValue("locked", user.isLocked())
+              .addValue("enabled", user.isEnabled());
+        try {
+            jdbcTemplate.query(CREATE_USER_SQL, parameters, new UserRowMapper());
+            return user;
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Error creating user: " + user.getEmail(), e);
+        }
     }
 
-    public class UserRowMapper implements RowMapper<User> {
+    public static class UserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) {
             try {
@@ -51,5 +73,4 @@ public class JDBCUserRepository implements UserRepository {
             }
         }
     }
-
 }
