@@ -11,12 +11,12 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -58,5 +58,13 @@ class JDBCUserRepositoryTest {
         assertFalse(actualUser.isPresent(), "User should not be present");
     }
 
-    
+    // TODO: Implement the createUser test cases
+    @Test
+    void testCreateUser_Success() {
+    }
+
+    @Test
+    void testCreateUser_Failure() {
+
+    }
 }
