@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -30,7 +29,13 @@ public class JDBCUserRepository implements UserRepository {
     @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
-        return Optional.empty();
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+              .addValue("email", email);
+        try {
+            return jdbcTemplate.query(FIND_BY_EMAIL_SQL, parameters, new UserRowMapper()).stream().findFirst();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Error finding user by email: " + email, e);
+        }
     }
 
     @Override
