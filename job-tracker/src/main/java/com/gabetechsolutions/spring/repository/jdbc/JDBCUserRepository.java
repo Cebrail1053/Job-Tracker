@@ -5,6 +5,7 @@ import com.gabetechsolutions.spring.domain.enums.Role;
 import com.gabetechsolutions.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -51,10 +52,13 @@ public class JDBCUserRepository implements UserRepository {
               .addValue("locked", user.isLocked())
               .addValue("enabled", user.isEnabled());
         try {
-            jdbcTemplate.query(CREATE_USER_SQL, parameters, new UserRowMapper());
+            int rowsAffected = jdbcTemplate.update(CREATE_USER_SQL, parameters);
+            if(rowsAffected == 0) {
+                throw new DataAccessResourceFailureException("Failed to create user: " + user.getEmail());
+            }
             return user;
         } catch (DataAccessException e) {
-            throw new RuntimeException("Error creating user: " + user.getEmail(), e);
+            throw new DataAccessResourceFailureException("Error creating user: " + user.getEmail(), e);
         }
     }
 
