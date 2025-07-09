@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
@@ -53,7 +54,7 @@ public class JDBCUserRepository implements UserRepository {
               .addValue("enabled", user.isEnabled());
         try {
             int rowsAffected = jdbcTemplate.update(CREATE_USER_SQL, parameters);
-            if(rowsAffected == 0) {
+            if (rowsAffected == 0) {
                 throw new DataAccessResourceFailureException("Failed to create user: " + user.getEmail());
             }
             return user;
@@ -63,8 +64,9 @@ public class JDBCUserRepository implements UserRepository {
     }
 
     public static class UserRowMapper implements RowMapper<User> {
+
         @Override
-        public User mapRow(ResultSet rs, int rowNum) {
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             try {
                 User user = new User(
                       rs.getString("first_name"),
@@ -77,8 +79,8 @@ public class JDBCUserRepository implements UserRepository {
                 user.setLocked(rs.getBoolean("locked"));
                 user.setEnabled(rs.getBoolean("enabled"));
                 return user;
-            } catch (Exception e) {
-                throw new RuntimeException("Error mapping User from ResultSet", e);
+            } catch (SQLException e) {
+                throw new SQLException("Error mapping User from ResultSet", e);
             }
         }
     }
