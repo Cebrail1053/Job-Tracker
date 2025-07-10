@@ -6,6 +6,7 @@ import com.gabetechsolutions.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -36,7 +37,7 @@ public class JDBCUserRepository implements UserRepository {
         try {
             return jdbcTemplate.query(FIND_BY_EMAIL_SQL, parameters, new UserRowMapper()).stream().findFirst();
         } catch (DataAccessException e) {
-            throw new RuntimeException("Error finding user by email: " + email, e);
+            throw new DataRetrievalFailureException("Error finding user by email: " + email, e);
         }
     }
 

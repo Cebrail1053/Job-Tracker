@@ -60,7 +60,6 @@ class JDBCUserRepositoryTest {
         assertFalse(actualUser.isPresent(), "User should not be present");
     }
 
-    // TODO: Implement the createUser test cases
     @Test
     void testCreateUser_Success() {
         User userToCreate = new TestUserBuilder().build();
