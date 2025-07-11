@@ -23,7 +23,7 @@ public class JDBCUserRepository implements UserRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final String TABLE_NAME = "users";
+    private static final String TABLE_NAME = "user";
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM " + TABLE_NAME + " WHERE email = :email";
     private static final String CREATE_USER_SQL = "INSERT INTO " + TABLE_NAME + " (id, first_name, " +
           "last_name, email, password, role, locked, enabled) VALUES (:id, :firstName, :lastName, :email, " +
