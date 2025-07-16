@@ -1,4 +1,4 @@
-package com.gabetechsolutions.spring.web;
+package com.gabetechsolutions.spring.web.v1;
 
 import com.gabetechsolutions.spring.common.Path;
 import com.gabetechsolutions.spring.service.JobApplicationService;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(Path.API_V1)
-public class JobApplicationController {
+public class ApplicationV1Controller {
     // TODO: Implement job application controller methods here
     private JobApplicationService applicationService;
 
