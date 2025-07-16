@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public class SecurityConfig {
 
     private final UserService userService;
