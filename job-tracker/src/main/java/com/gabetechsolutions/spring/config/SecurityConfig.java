@@ -27,7 +27,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // TODO: enable csrf, temporarily disabled during development
-        // TODO: enable CORS, and double check exposed API endpoints
         http
               .csrf(AbstractHttpConfigurer::disable)
               .authorizeHttpRequests((requests) -> requests

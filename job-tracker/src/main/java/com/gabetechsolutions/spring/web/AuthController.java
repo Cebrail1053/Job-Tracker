@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -32,9 +33,4 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    // TODO: Move this to a separate controller
-    @GetMapping(Path.LOGIN_URI)
-    public String loginPage() {
-        return "login";
-    }
 }
