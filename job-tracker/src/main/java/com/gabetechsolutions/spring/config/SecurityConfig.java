@@ -31,7 +31,9 @@ public class SecurityConfig {
               .csrf(AbstractHttpConfigurer::disable)
               .authorizeHttpRequests((requests) -> requests
                     .requestMatchers(Path.BASE_URI,
-                          Path.SIGNUP_URI
+                          Path.SIGNUP_URI,
+                          "/css/**",
+                          "/js/**"
                     )
                     .permitAll()
                     .anyRequest()
