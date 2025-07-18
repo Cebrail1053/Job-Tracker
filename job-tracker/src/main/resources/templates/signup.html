@@ -17,9 +17,9 @@
         <h2>Welcome to ApplySync</h2>
         <p>Manage all your job applications in one place.</p>
     </section>
-    <form th:action="@{/login}" method="post" class="flow-container">
+    <form th:action="@{/signup}" method="post" class="flow-container">
         <fieldset>
-            <legend>Login</legend>
+            <legend>Sign Up</legend>
             <div class="alert alert-error" th:if="${param.error}">Invalid email or password</div>
             <div class="alert alert-success" th:if="${param.logout}">You have been logged out</div>
             <label for="email">Email:</label>

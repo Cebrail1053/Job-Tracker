@@ -40,6 +40,7 @@ public class SecurityConfig {
                     .authenticated())
               .formLogin((form) -> form
                     .loginPage(Path.LOGIN_URI)
+                    .successForwardUrl(Path.DASHBOARD_URI)
                     .permitAll())
               .logout(LogoutConfigurer::permitAll);
 
