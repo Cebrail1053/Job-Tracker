@@ -2,31 +2,24 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ApplySync</title>
+    <title>Sign Up-ApplySync</title>
     <link rel="stylesheet" href="/css/global.css">
     <script src="/js/global.js"></script>
 </head>
 <body>
-<header class="flow-container">
-    <h1>ApplySync</h1>
-    <p>Track your job applications effortlessly</p>
-    <button>Sign Up</button>
-</header>
 <main>
-    <section class="flow-container">
-        <h2>Welcome to ApplySync</h2>
-        <p>Manage all your job applications in one place.</p>
-    </section>
     <form th:action="@{/signup}" method="post" class="flow-container">
         <fieldset>
             <legend>Sign Up</legend>
-            <div class="alert alert-error" th:if="${param.error}">Invalid email or password</div>
-            <div class="alert alert-success" th:if="${param.logout}">You have been logged out</div>
+            <label for="firstName">Email:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <label for="lastName">Email:</label>
+            <input type="text" id="lastName" name="lastName" required>
             <label for="email">Email:</label>
             <input type="text" id="email" name="username" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn">Sign Up</button>
         </fieldset>
     </form>
 </main>

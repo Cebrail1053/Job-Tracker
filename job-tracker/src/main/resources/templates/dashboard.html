@@ -2,34 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ApplySync</title>
+    <title>Dashboard-ApplySync</title>
     <link rel="stylesheet" href="/css/global.css">
     <script src="/js/global.js"></script>
 </head>
 <body>
-<header class="flow-container">
-    <h1>ApplySync</h1>
-    <p>Track your job applications effortlessly</p>
-    <button>Sign Up</button>
-</header>
-<main>
-    <section class="flow-container">
-        <h2>Welcome to ApplySync</h2>
-        <p>Manage all your job applications in one place.</p>
-    </section>
-    <form th:action="@{/login}" method="post" class="flow-container">
-        <fieldset>
-            <legend>Login</legend>
-            <div class="alert alert-error" th:if="${param.error}">Invalid email or password</div>
-            <div class="alert alert-success" th:if="${param.logout}">You have been logged out</div>
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit" class="btn">Login</button>
-        </fieldset>
-    </form>
-</main>
 <footer>
     <p>&copy; 2025 ApplySync. All rights reserved.</p>
 </footer>
