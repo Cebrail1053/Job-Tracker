@@ -61,6 +61,26 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
+-- -----------------------------------------------------
+-- Table `jobtrackerdb`.`confirmation_token`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `jobtrackerdb`.`confirmation_token` (
+  `token_id` INT NOT NULL AUTO_INCREMENT,
+  `token` VARCHAR(36) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `expires_at` DATETIME NOT NULL,
+  `confirmed_at` DATETIME NULL,
+  `user_id` BINARY(16) NOT NULL,
+  PRIMARY KEY (`token_id`, `user_id`),
+  INDEX `fk_confirmation_token_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_confirmation_token_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `jobtrackerdb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

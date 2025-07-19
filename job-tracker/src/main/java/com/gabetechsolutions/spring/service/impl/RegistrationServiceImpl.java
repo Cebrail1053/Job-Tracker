@@ -4,12 +4,16 @@ import com.gabetechsolutions.spring.client.RegistrationRequest;
 import com.gabetechsolutions.spring.common.validators.EmailValidator;
 import com.gabetechsolutions.spring.domain.User;
 import com.gabetechsolutions.spring.domain.enums.Role;
+import com.gabetechsolutions.spring.domain.token.ConfirmationToken;
 import com.gabetechsolutions.spring.service.RegistrationService;
+import com.gabetechsolutions.spring.service.TokenService;
 import com.gabetechsolutions.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,6 +21,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private final EmailValidator emailValidator;
     private final UserService userService;
+    private final TokenService tokenService;
 
     private static final String EMAIL_NOT_VALID = "%s is not a valid email address";
 
@@ -32,6 +37,9 @@ public class RegistrationServiceImpl implements RegistrationService {
               new User(request.firstName(), request.lastName(), request.email(),
                     request.password(), Role.USER)
         );
+
+        tokenService.generateToken(userCreated);
+
         return Optional.ofNullable(userCreated);
     }
 }
