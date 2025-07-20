@@ -28,6 +28,7 @@ public class JDBCUserRepository implements UserRepository {
     private static final String CREATE_USER_SQL = "INSERT INTO " + TABLE_NAME + " (id, first_name, " +
           "last_name, email, password, role, locked, enabled) VALUES (:id, :firstName, :lastName, :email, " +
           ":password, :role, :locked, :enabled)";
+    private static final String ENABLE_USER_SQL = "UPDATE " + TABLE_NAME + " SET enabled = true WHERE id = :id";
 
     @Override
     @Transactional(readOnly = true)
@@ -61,6 +62,20 @@ public class JDBCUserRepository implements UserRepository {
             return user;
         } catch (DataAccessException e) {
             throw new DataAccessResourceFailureException("Error creating user: " + user.getEmail(), e);
+        }
+    }
+
+    @Override
+    public void enableUser(User user) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+              .addValue("id", user.getId());
+        try {
+            int rowsAffected = jdbcTemplate.update(ENABLE_USER_SQL, parameters);
+            if (rowsAffected == 0) {
+                throw new DataAccessResourceFailureException("Failed to enable user: " + user.getEmail());
+            }
+        } catch (DataAccessException e) {
+            throw new DataAccessResourceFailureException("Error enabling user: " + user.getEmail(), e);
         }
     }
 

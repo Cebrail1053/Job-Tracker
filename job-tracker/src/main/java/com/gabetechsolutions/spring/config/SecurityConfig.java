@@ -32,6 +32,7 @@ public class SecurityConfig {
               .authorizeHttpRequests((requests) -> requests
                     .requestMatchers(Path.BASE_URI,
                           Path.SIGNUP_URI,
+                          Path.CONFIRMATION_URI,
                           "/css/**",
                           "/js/**"
                     )

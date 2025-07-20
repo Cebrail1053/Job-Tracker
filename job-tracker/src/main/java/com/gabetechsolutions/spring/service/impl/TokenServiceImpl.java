@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,12 +32,21 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public boolean validateToken(String token) {
-        return false;
-    }
+    public Optional<User> confirmToken(String token) {
+        ConfirmationToken confirmationToken = tokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalStateException("Token not found"));
 
-    @Override
-    public void confirmToken(String token) {
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("Token already confirmed");
+        }
 
+        if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("Token expired");
+        }
+
+        confirmationToken.setConfirmedAt(LocalDateTime.now());
+        return tokenRepository.updateConfirmationToken(null, confirmationToken) ?
+                Optional.of(confirmationToken.getUser()) :
+                Optional.empty();
     }
 }

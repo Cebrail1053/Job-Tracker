@@ -9,4 +9,6 @@ public interface UserRepository {
     Optional<User> findByEmail(String email);
 
     User createUser(User user);
+
+    void enableUser(User user);
 }

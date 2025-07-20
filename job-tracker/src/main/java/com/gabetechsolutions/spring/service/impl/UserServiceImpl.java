@@ -43,4 +43,14 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.createUser(user);
     }
+
+    @Override
+    public void enableUser(User user) {
+        if (user.isEnabled()) {
+            throw new IllegalStateException("User is already enabled");
+        }
+
+        user.setEnabled(true);
+        userRepository.enableUser(user);
+    }
 }

@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface RegistrationService {
 
     Optional<User> register(RegistrationRequest request);
+
+    void confirmToken(String token);
 }

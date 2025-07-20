@@ -42,4 +42,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         return Optional.ofNullable(userCreated);
     }
+
+    @Override
+    public void confirmToken(String token) {
+        tokenService.confirmToken(token).ifPresent(userService::enableUser);
+    }
 }

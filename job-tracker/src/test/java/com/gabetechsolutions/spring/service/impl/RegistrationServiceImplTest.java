@@ -6,6 +6,7 @@ import com.gabetechsolutions.spring.common.UuidConverter;
 import com.gabetechsolutions.spring.common.validators.EmailValidator;
 import com.gabetechsolutions.spring.domain.User;
 import com.gabetechsolutions.spring.service.RegistrationService;
+import com.gabetechsolutions.spring.service.TokenService;
 import com.gabetechsolutions.spring.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,12 @@ class RegistrationServiceImplTest {
     private EmailValidator emailValidator;
     @Mock
     private UserService userService;
+    @Mock
+    private TokenService tokenService;
 
     @BeforeEach
     void init() {
-        this.registrationService = new RegistrationServiceImpl(emailValidator, userService);
+        this.registrationService = new RegistrationServiceImpl(emailValidator, userService, tokenService);
     }
 
     @Test

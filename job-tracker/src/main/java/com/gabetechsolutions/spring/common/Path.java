@@ -7,6 +7,7 @@ public class Path {
 
     // Onboarding and View Endpoints
     public static final String SIGNUP_URI = BASE_URI + "signup";
+    public static final String CONFIRMATION_URI = SIGNUP_URI + "/confirm";
     public static final String LOGIN_URI = BASE_URI + "login";
     public static final String DASHBOARD_URI = BASE_URI + "dashboard";
 

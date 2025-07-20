@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,6 +62,34 @@ public class JDBCConfirmationTokenRepository implements ConfirmationTokenReposit
             throw new DataAccessResourceFailureException("Error saving confirmation token: " + confirmationToken.getToken(), e);
         }
     }
+
+    @Override
+    @Transactional
+    public boolean updateConfirmationToken(String token, ConfirmationToken confirmationToken) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+              .addValue("tokenId", confirmationToken.getId())
+              .addValue("confirmedAt", confirmationToken.getConfirmedAt())
+              .addValue("token", token)
+              .addValue("createdAt", confirmationToken.getCreatedAt())
+              .addValue("expiresAt", confirmationToken.getExpiresAt());
+
+        StringBuilder sqlBuilder = new StringBuilder("UPDATE " + TABLE_NAME + " SET ");
+        if (confirmationToken.getConfirmedAt() != null) {
+            sqlBuilder.append("confirmed_at = :confirmedAt ");
+        }
+        if (StringUtils.hasText(token)) {
+            sqlBuilder.append("token = :token, created_at = :createdAt, expires_at = :expiresAt ");
+        }
+        sqlBuilder.append("WHERE token_id = :tokenId");
+
+        try {
+            int rowsAffected = jdbcTemplate.update(sqlBuilder.toString(), parameters);
+            return rowsAffected > 0;
+        } catch (DataAccessException e) {
+            throw new DataAccessResourceFailureException("Error updating confirmation token: " + confirmationToken.getToken(), e);
+        }
+    }
+
 
     public static class ConfirmationTokenRowMapper implements RowMapper<ConfirmationToken> {
 

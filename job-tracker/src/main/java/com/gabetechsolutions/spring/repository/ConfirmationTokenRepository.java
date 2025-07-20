@@ -9,4 +9,6 @@ public interface ConfirmationTokenRepository {
     Optional<ConfirmationToken> findByToken(String token);
 
     void save(ConfirmationToken confirmationToken);
+
+    boolean updateConfirmationToken(String token, ConfirmationToken confirmationToken);
 }
