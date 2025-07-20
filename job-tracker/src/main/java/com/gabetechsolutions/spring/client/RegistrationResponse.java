@@ -1,4 +1,4 @@
 package com.gabetechsolutions.spring.client;
 
-public record RegistrationResponse(String message, String email) {
+public record RegistrationResponse(String message, String token) {
 }

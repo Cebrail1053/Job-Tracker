@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    User signUpUser(User user);
+    String signUpUser(User user);
 
     void enableUser(User user);
 }

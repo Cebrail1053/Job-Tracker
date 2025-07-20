@@ -4,6 +4,7 @@ import com.gabetechsolutions.spring.common.UuidConverter;
 import com.gabetechsolutions.spring.domain.User;
 import com.gabetechsolutions.spring.domain.token.ConfirmationToken;
 import com.gabetechsolutions.spring.repository.UserRepository;
+import com.gabetechsolutions.spring.service.TokenService;
 import com.gabetechsolutions.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final TokenService tokenService;
 
     private final static String USER_NOT_FOUND = "User with email:%s not found";
     private final static String USER_ASSOCIATED_TO_EMAIL = "%s is already associated to an account";
@@ -31,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signUpUser(User user) {
+    public String signUpUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalStateException(String.format(USER_ASSOCIATED_TO_EMAIL, user.getEmail()));
         }
@@ -41,7 +43,8 @@ public class UserServiceImpl implements UserService {
         // Generate a new UUID for the user
         user.setId(UuidConverter.uuidToBytes(UUID.randomUUID()));
 
-        return userRepository.createUser(user);
+        userRepository.createUser(user);
+        return tokenService.generateToken(user);
     }
 
     @Override

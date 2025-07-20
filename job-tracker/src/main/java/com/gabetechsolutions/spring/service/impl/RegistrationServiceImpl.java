@@ -26,21 +26,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     private static final String EMAIL_NOT_VALID = "%s is not a valid email address";
 
     @Override
-    public Optional<User> register(RegistrationRequest request) {
+    public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.email());
 
         if (!isValidEmail) {
             throw new IllegalStateException(String.format(EMAIL_NOT_VALID, request.email()));
         }
 
-        User userCreated = userService.signUpUser(
+        return userService.signUpUser(
               new User(request.firstName(), request.lastName(), request.email(),
                     request.password(), Role.USER)
         );
-
-        tokenService.generateToken(userCreated);
-
-        return Optional.ofNullable(userCreated);
     }
 
     @Override
