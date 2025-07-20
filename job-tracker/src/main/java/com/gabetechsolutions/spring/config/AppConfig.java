@@ -17,4 +17,6 @@ public class AppConfig {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
+    //TODO: Define beans for EmailSender and JavaMailSender
 }

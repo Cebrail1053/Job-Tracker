@@ -5,7 +5,6 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 
@@ -13,7 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 @AllArgsConstructor
 public class EmailSender {
 
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
     @Async
     public void send(String to, String email) {
