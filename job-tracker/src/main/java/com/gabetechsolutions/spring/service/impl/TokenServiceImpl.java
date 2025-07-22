@@ -30,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
               user
         );
         tokenRepository.save(confirmationToken);
-        String link = "http://localhost:8080" + Path.CONFIRMATION_URI + "confirm?token=" + token;
+        String link = "http://localhost:8080" + Path.CONFIRMATION_URI + "?token=" + token;
         emailSender.send(user.getEmail(), buildEmail(user.getFirstName(), link));
         return token;
     }

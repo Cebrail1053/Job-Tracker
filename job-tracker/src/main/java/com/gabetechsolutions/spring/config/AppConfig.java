@@ -1,8 +1,11 @@
 package com.gabetechsolutions.spring.config;
 
+import com.gabetechsolutions.spring.common.EmailSender;
 import com.gabetechsolutions.spring.common.validators.EmailValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -18,5 +21,8 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
-    //TODO: Define beans for EmailSender and JavaMailSender
+    @Bean
+    public EmailSender emailSender(JavaMailSender mailSender) {
+        return new EmailSender(mailSender);
+    }
 }
