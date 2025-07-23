@@ -2,7 +2,6 @@ package com.gabetechsolutions.spring.service.impl;
 
 import com.gabetechsolutions.spring.common.UuidConverter;
 import com.gabetechsolutions.spring.domain.User;
-import com.gabetechsolutions.spring.domain.token.ConfirmationToken;
 import com.gabetechsolutions.spring.repository.UserRepository;
 import com.gabetechsolutions.spring.service.TokenService;
 import com.gabetechsolutions.spring.service.UserService;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service

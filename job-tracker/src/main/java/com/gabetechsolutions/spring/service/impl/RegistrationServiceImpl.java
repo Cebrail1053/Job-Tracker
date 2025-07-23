@@ -4,16 +4,11 @@ import com.gabetechsolutions.spring.client.RegistrationRequest;
 import com.gabetechsolutions.spring.common.validators.EmailValidator;
 import com.gabetechsolutions.spring.domain.User;
 import com.gabetechsolutions.spring.domain.enums.Role;
-import com.gabetechsolutions.spring.domain.token.ConfirmationToken;
 import com.gabetechsolutions.spring.service.RegistrationService;
 import com.gabetechsolutions.spring.service.TokenService;
 import com.gabetechsolutions.spring.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor

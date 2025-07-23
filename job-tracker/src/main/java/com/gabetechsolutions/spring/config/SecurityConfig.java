@@ -32,7 +32,7 @@ public class SecurityConfig {
               .authorizeHttpRequests((requests) -> requests
                     .requestMatchers(Path.BASE_URI,
                           Path.SIGNUP_URI,
-                          Path.CONFIRMATION_URI+"**",
+                          Path.CONFIRMATION_URI + "**",
                           "/css/**",
                           "/js/**"
                     )
@@ -56,7 +56,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws
+          Exception {
         return configuration.getAuthenticationManager();
     }
 }

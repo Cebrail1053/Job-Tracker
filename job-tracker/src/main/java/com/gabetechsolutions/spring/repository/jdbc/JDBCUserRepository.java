@@ -28,7 +28,8 @@ public class JDBCUserRepository implements UserRepository {
     private static final String CREATE_USER_SQL = "INSERT INTO " + TABLE_NAME + " (id, first_name, " +
           "last_name, email, password, role, locked, enabled) VALUES (:id, :firstName, :lastName, :email, " +
           ":password, :role, :locked, :enabled)";
-    private static final String ENABLE_USER_SQL = "UPDATE " + TABLE_NAME + " SET enabled = true WHERE id = :id";
+    private static final String ENABLE_USER_SQL = "UPDATE " + TABLE_NAME + " SET enabled = true WHERE id = " +
+          ":id";
 
     @Override
     @Transactional(readOnly = true)
