@@ -67,6 +67,7 @@ public class JDBCUserRepository implements UserRepository {
     }
 
     @Override
+    @Transactional
     public void enableUser(User user) {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
               .addValue("id", user.getId());

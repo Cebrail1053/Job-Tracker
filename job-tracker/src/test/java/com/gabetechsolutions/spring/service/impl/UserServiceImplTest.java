@@ -58,25 +58,22 @@ class UserServiceImplTest {
         assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername(email));
     }
 
-    //TODO: Update this test to use the new UserServiceImpl.signUpUser method
-//    @Test
-//    void testSignUpUser_Success() {
-//        User expectedUser = new TestUserBuilder()
-//              .withId(UuidConverter.uuidToBytes(UUID.randomUUID()))
-//              .build();
-//
-//        when(userRepository.findByEmail(expectedUser.getEmail())).thenReturn(Optional.empty());
-//        when(bCryptPasswordEncoder.encode(expectedUser.getPassword())).thenReturn(expectedUser.getPassword());
-//        when(userRepository.createUser(expectedUser)).thenReturn(expectedUser);
-//
-//        User createdUser = userService.signUpUser(expectedUser);
-//
-//        assertArrayEquals(expectedUser.getId(), createdUser.getId());
-//        assertEquals(expectedUser.getFirstName(), createdUser.getFirstName());
-//        assertEquals(expectedUser.getLastName(), createdUser.getLastName());
-//        assertEquals(expectedUser.getEmail(), createdUser.getEmail());
-//        assertEquals(expectedUser.getPassword(), createdUser.getPassword());
-//    }
+    @Test
+    void testSignUpUser_Success() {
+        User user = new TestUserBuilder()
+              .withId(UuidConverter.uuidToBytes(UUID.randomUUID()))
+              .build();
+        String expectedToken = UUID.randomUUID().toString();
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
+        when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
+        when(userRepository.createUser(user)).thenReturn(user);
+        when(tokenService.generateToken(user)).thenReturn(expectedToken);
+
+        String actualToken = userService.signUpUser(user);
+
+        assertEquals(expectedToken, actualToken);
+    }
 
     @Test
     void testSignUpUser_UserAlreadyExists() {
