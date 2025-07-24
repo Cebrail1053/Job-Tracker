@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,9 +34,6 @@ public class JDBCJobApplicationRepository implements JobApplicationRepository {
     private static final String CREATE_APPLICATION_SQL = "INSERT INTO " + TABLE_NAME + " (job_title, " +
           "company, date_applied, location, portal_url, status, notes, user_id) VALUES (:jobTitle, " +
           ":company, :dateApplied, :location, :portalUrl, :status, :notes, :userId)";
-    private static final String UPDATE_APPLICATION_SQL = "UPDATE " + TABLE_NAME + " SET job_title = " +
-          ":jobTitle, company = :company, date_applied = :dateApplied, location = :location, portal_url = " +
-          ":portalUrl, status = :status, notes = :notes WHERE job_id = :applicationId";
     private static final String DELETE_APPLICATION_SQL = "DELETE FROM " + TABLE_NAME + " WHERE job_id = " +
           ":applicationId";
 
@@ -92,25 +90,36 @@ public class JDBCJobApplicationRepository implements JobApplicationRepository {
     @Override
     @Transactional
     public JobApplication updateApplication(JobApplication jobApplication) {
-        MapSqlParameterSource parameters = new MapSqlParameterSource()
-              .addValue("jobTitle", jobApplication.getJobTitle())
-              .addValue("company", jobApplication.getCompany())
-              .addValue("dateApplied", jobApplication.getDateApplied())
-              .addValue("location", jobApplication.getLocation())
-              .addValue("portalUrl", jobApplication.getPortalUrl())
-              .addValue("status", jobApplication.getStatus().name())
-              .addValue("notes", jobApplication.getNotes())
-              .addValue("applicationId", jobApplication.getId());
+        List<String> updates = new ArrayList<>();
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+
+        addParameterIfNotNull(updates, parameters, "job_title", "jobTitle", jobApplication.getJobTitle());
+        addParameterIfNotNull(updates, parameters, "company", "company", jobApplication.getCompany());
+        addParameterIfNotNull(updates, parameters, "date_applied", "dateApplied",
+              jobApplication.getDateApplied());
+        addParameterIfNotNull(updates, parameters, "location", "location", jobApplication.getLocation());
+        addParameterIfNotNull(updates, parameters, "portal_url", "portalUrl", jobApplication.getPortalUrl());
+        addParameterIfNotNull(updates, parameters, "status", "status", jobApplication.getStatus().name());
+        addParameterIfNotNull(updates, parameters, "notes", "notes", jobApplication.getNotes());
+
+        if (updates.isEmpty()) {
+            return jobApplication;
+        }
+
+        String sql = String.format("UPDATE %s SET %s WHERE job_id = :applicationId",
+              TABLE_NAME,
+              String.join(", ", updates));
+
+        parameters.addValue("applicationId", jobApplication.getId());
+
         try {
-            int rowsAffected = jdbcTemplate.update(UPDATE_APPLICATION_SQL, parameters);
+            int rowsAffected = jdbcTemplate.update(sql, parameters);
             if (rowsAffected == 0) {
-                throw new DataAccessResourceFailureException("Failed to update job application with ID: "
-                      + jobApplication.getId());
+                throw new DataAccessResourceFailureException("Failed to update job application with ID: " + jobApplication.getId());
             }
             return jobApplication;
         } catch (DataAccessException e) {
-            throw new DataAccessResourceFailureException("Error updating job application with ID: "
-                  + jobApplication.getId(), e);
+            throw new DataAccessResourceFailureException("Error updating job application with ID: " + jobApplication.getId(), e);
         }
     }
 
@@ -128,6 +137,14 @@ public class JDBCJobApplicationRepository implements JobApplicationRepository {
         } catch (DataAccessException e) {
             throw new DataAccessResourceFailureException("Error deleting job application with ID: "
                   + applicationId, e);
+        }
+    }
+
+    private void addParameterIfNotNull(List<String> updates, MapSqlParameterSource parameters,
+                                       String columnName, String paramName, Object value) {
+        if (value != null) {
+            updates.add(columnName + " = :" + paramName);
+            parameters.addValue(paramName, value);
         }
     }
 
