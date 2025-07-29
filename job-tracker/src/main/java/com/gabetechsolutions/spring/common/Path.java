@@ -12,7 +12,7 @@ public class Path {
     public static final String DASHBOARD_URI = BASE_URI + "dashboard";
 
     // Job Application Endpoints
-    public static final String JOB_APPLICATION_URI = API_V1 + "application";
+    public static final String JOB_APPLICATION_URI = API_V1 + "applications";
 
 
 }
