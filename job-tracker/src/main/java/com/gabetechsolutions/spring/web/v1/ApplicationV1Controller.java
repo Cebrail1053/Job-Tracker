@@ -35,7 +35,8 @@ public class ApplicationV1Controller {
 
     @PostMapping(Path.JOB_APPLICATION_URI)
     public ResponseEntity<?> createJobApplication(@RequestBody ApplicationRequest request) {
-//        applicationService.createApplication(request); // TODO: Update Service to accept ApplicationRequest
+        User user = getCurrentUser();
+        applicationService.createApplication(request, user);
         return ResponseEntity.ok("Job application created successfully");
     }
 

@@ -1,6 +1,9 @@
 package com.gabetechsolutions.spring.service.impl;
 
+import com.gabetechsolutions.spring.client.ApplicationRequest;
 import com.gabetechsolutions.spring.domain.JobApplication;
+import com.gabetechsolutions.spring.domain.User;
+import com.gabetechsolutions.spring.domain.enums.ApplicationStatus;
 import com.gabetechsolutions.spring.repository.JobApplicationRepository;
 import com.gabetechsolutions.spring.service.JobApplicationService;
 import lombok.AllArgsConstructor;
@@ -33,14 +36,12 @@ public class JobApplicaitonServiceImpl implements JobApplicationService {
     }
 
     @Override
-    public JobApplication createApplication(JobApplication application) {
-        if (application == null) {
+    public JobApplication createApplication(ApplicationRequest request, User user) {
+        if (request == null) {
             throw new IllegalArgumentException("Job application cannot be null");
         }
 
-        if (application.getUserId() == null || application.getUserId().length == 0) {
-            throw new IllegalArgumentException("User ID cannot be null or empty");
-        }
+        JobApplication application = mapJobApplication(request, user);
 
         return jobApplicationRepository.createApplication(application);
     }
@@ -65,5 +66,18 @@ public class JobApplicaitonServiceImpl implements JobApplicationService {
         }
 
         jobApplicationRepository.deleteApplication(applicationId);
+    }
+
+    private JobApplication mapJobApplication(ApplicationRequest request, User user) {
+        return JobApplication.builder()
+                .jobTitle(request.jobTitle())
+                .company(request.company())
+                .dateApplied(request.dateApplied())
+                .location(request.location())
+                .portalUrl(request.portalUrl())
+                .status(ApplicationStatus.APPLIED)
+                .notes(request.notes())
+                .userId(user.getId())
+                .build();
     }
 }
