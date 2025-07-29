@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,7 @@ public class ApplicationV1Controller {
         return ResponseEntity.ok("Job application created successfully");
     }
 
-    @PostMapping(Path.JOB_APPLICATION_URI + "/update")
+    @PutMapping(Path.JOB_APPLICATION_URI + "/update")
     public ResponseEntity<?> updateJobApplication(@RequestBody JobApplication application) {
         JobApplication updatedApplication = applicationService.updateApplication(application);
         return ResponseEntity.ok(updatedApplication);
