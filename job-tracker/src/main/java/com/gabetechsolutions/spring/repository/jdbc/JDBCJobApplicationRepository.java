@@ -153,17 +153,17 @@ public class JDBCJobApplicationRepository implements JobApplicationRepository {
         @Override
         public JobApplication mapRow(ResultSet rs, int rowNum) throws SQLException {
             try {
-                JobApplication jobApplication = new JobApplication();
-                jobApplication.setId(rs.getLong("job_id"));
-                jobApplication.setJobTitle(rs.getString("job_title"));
-                jobApplication.setCompany(rs.getString("company"));
-                jobApplication.setDateApplied(rs.getObject("date_applied", LocalDate.class));
-                jobApplication.setLocation(rs.getString("location"));
-                jobApplication.setPortalUrl(rs.getString("portal_url"));
-                jobApplication.setStatus(ApplicationStatus.valueOf(rs.getString("status")));
-                jobApplication.setNotes(rs.getString("notes"));
-                jobApplication.setUserId(rs.getBytes("user_id"));
-                return jobApplication;
+                return JobApplication.builder()
+                      .id(rs.getLong("job_id"))
+                      .jobTitle(rs.getString("job_title"))
+                      .company(rs.getString("company"))
+                      .dateApplied(rs.getObject("date_applied", LocalDate.class))
+                      .location(rs.getString("location"))
+                      .portalUrl(rs.getString("portal_url"))
+                      .status(ApplicationStatus.valueOf(rs.getString("status")))
+                      .notes(rs.getString("notes"))
+                      .userId(rs.getBytes("user_id"))
+                      .build();
             } catch (SQLException e) {
                 throw new SQLException("Error mapping Job Application from ResultSet", e);
             }
