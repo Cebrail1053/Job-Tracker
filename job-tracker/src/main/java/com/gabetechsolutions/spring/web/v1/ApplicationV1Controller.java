@@ -8,12 +8,13 @@ import com.gabetechsolutions.spring.service.JobApplicationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,8 +30,8 @@ public class ApplicationV1Controller {
         return ResponseEntity.ok(applicationService.getAllApplications(user.getId()));
     }
 
-    @GetMapping(Path.JOB_APPLICATION_URI)
-    public ResponseEntity<?> getJobApplicationById(@RequestParam long applicationId) {
+    @GetMapping(Path.JOB_APPLICATION_URI + "/{applicationId}")
+    public ResponseEntity<?> getJobApplicationById(@PathVariable long applicationId) {
         return ResponseEntity.ok(applicationService.getApplicationById(applicationId));
     }
 
@@ -47,8 +48,8 @@ public class ApplicationV1Controller {
         return ResponseEntity.ok(updatedApplication);
     }
 
-    @PostMapping(Path.JOB_APPLICATION_URI + "/delete")
-    public ResponseEntity<?> deleteJobApplication(@RequestParam long applicationId) {
+    @DeleteMapping(Path.JOB_APPLICATION_URI + "/{applicationId}")
+    public ResponseEntity<?> deleteJobApplication(@PathVariable long applicationId) {
         applicationService.deleteApplication(applicationId);
         return ResponseEntity.ok("Job application deleted successfully");
     }
